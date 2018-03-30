@@ -8,17 +8,16 @@
                 <v-toolbar-title>Recent</v-toolbar-title>
               </v-toolbar>
               <v-list two-line>
-                  <v-list-tile v-ripple v-for="(item) in trendingSymbols" :key="item.symbol">
+                  <v-list-tile v-ripple v-for="(item) in recentLookups" :key="item.symbol" @click="lookupQuote(item.symbol)">
                     <v-list-tile-content>
                       <v-list-tile-title v-html="item.symbol"></v-list-tile-title>
-                      <v-list-tile-sub-title v-html="item.title"></v-list-tile-sub-title>
                     </v-list-tile-content>
                   </v-list-tile>
               </v-list>
             </v-card>
           </v-flex>
           <v-flex xs12 sm8>
-            <stock-display></stock-display>
+            <stock-display v-if="currentQuote != null"></stock-display>
           </v-flex>
           <v-flex xs12 sm2>
             <v-card>
@@ -26,7 +25,7 @@
                 <v-toolbar-title>Trending</v-toolbar-title>
               </v-toolbar>
               <v-list two-line>
-                  <v-list-tile v-ripple v-for="(item) in trendingSymbols" :key="item.symbol">
+                  <v-list-tile v-ripple v-for="(item) in trendingSymbols" :key="item.symbol" @click="lookupQuote(item.symbol)">
                     <v-list-tile-content>
                       <v-list-tile-title v-html="item.symbol"></v-list-tile-title>
                       <v-list-tile-sub-title v-html="item.title"></v-list-tile-sub-title>
@@ -60,6 +59,7 @@ a {
 
 <script>
 import StockDisplay from '@/components/StockDisplay'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   data () {
     return {
@@ -70,6 +70,9 @@ export default {
     StockDisplay
   },
   methods: {
+    ...mapActions([
+      'lookupQuote'
+    ]),
     getTrendingSymbols () {
       this.$http.jsonp('https://api.stocktwits.com/api/2/trending/symbols/equities.json').then(response => {
         this.trendingSymbols = response.body.symbols
@@ -79,6 +82,12 @@ export default {
   },
   mounted () {
     this.getTrendingSymbols()
+  },
+  computed: {
+    ...mapGetters([
+      'recentLookups',
+      'currentQuote'
+    ])
   }
 }
 </script>

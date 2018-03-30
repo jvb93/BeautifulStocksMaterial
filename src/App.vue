@@ -38,6 +38,8 @@
         prepend-icon="search"
         label="Search"
         class="hidden-sm-and-down"
+        @keyup.enter="lookupQuote(symbol)"
+        v-model="symbol"
       ></v-text-field>
     </v-toolbar>
     <v-content>
@@ -47,6 +49,7 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex'
 export default {
   data () {
     return {
@@ -57,9 +60,22 @@ export default {
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'Beautiful'
+      title: 'Beautiful',
+      symbol:''
     }
   },
-  name: 'App'
+  name: 'App',
+  mounted () {
+    this.fetchLookupsFromLocalStorage()
+  },
+  methods:{ 
+    ...mapActions([
+      'lookupQuote',
+      'fetchLookupsFromLocalStorage'
+    ]),
+    lookupSymbol: () => {
+      this.addLookup(this.symbol)
+    }
+  }
 }
 </script>

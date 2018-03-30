@@ -1,9 +1,9 @@
 <template>
 <div>
     <v-toolbar color="success">
-        <v-toolbar-title class="white--text">Apple</v-toolbar-title>
+        <v-toolbar-title class="white--text">{{currentQuote.title}}</v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-toolbar-title class="white--text">AAPL</v-toolbar-title>
+        <v-toolbar-title class="white--text">{{currentQuote.symbol}}</v-toolbar-title>
 
         
     </v-toolbar>
@@ -20,6 +20,12 @@
 
 </template>
 <script>
+import {mapGetters} from 'vuex'
 export default {
+    computed: {
+        ...mapGetters([
+            'currentQuote'
+        ])
+    }
 }
 </script>
