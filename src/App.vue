@@ -1,6 +1,6 @@
 <template>
-  <v-app>
-    <v-navigation-drawer
+  <v-app dark>
+    <!--<v-navigation-drawer
       persistent
       :mini-variant="miniVariant"
       :clipped="clipped"
@@ -23,14 +23,22 @@
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
-    </v-navigation-drawer>
+    </v-navigation-drawer>-->
     <v-toolbar
       app
       :clipped-left="clipped"
     >
-      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-         <v-toolbar-title v-text="title"></v-toolbar-title>
+     <!-- <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>-->
+      <v-toolbar-title v-text="title"></v-toolbar-title>
+      
       <v-spacer></v-spacer>
+       <v-text-field
+        flat
+        solo-inverted
+        prepend-icon="search"
+        label="Search"
+        class="hidden-sm-and-down"
+      ></v-text-field>
     </v-toolbar>
     <v-content>
       <router-view/>
