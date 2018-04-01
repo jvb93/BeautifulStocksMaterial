@@ -1,25 +1,38 @@
 <template>
   <v-container grid-list-md fluid fill-height>
     <v-slide-y-transition mode="out-in">
-        <v-layout row>
-          <v-flex xs12 sm2>
+        <v-layout row wrap>
+          <v-flex xs12 sm2 order-xs2>
              <v-card>
               <v-toolbar color="secondary">
                 <v-toolbar-title>Recent</v-toolbar-title>
+                <v-spacer/>
+                <v-toolbar-items>
+                  <v-btn flat @click="purgeRecentLookups" v-if="recentLookups.length">
+                    CLEAR
+                  </v-btn>
+                </v-toolbar-items>
               </v-toolbar>
-              <v-list two-line>
+              <v-list two-line v-if="recentLookups.length">
                   <v-list-tile v-ripple v-for="(item) in recentLookups" :key="item.symbol" @click="lookupQuote(item.symbol)">
                     <v-list-tile-content>
                       <v-list-tile-title v-html="item.symbol"></v-list-tile-title>
+                      <v-list-tile-sub-title v-html="item.companyName"></v-list-tile-sub-title>
                     </v-list-tile-content>
                   </v-list-tile>
               </v-list>
             </v-card>
           </v-flex>
-          <v-flex xs12 sm8>
-            <stock-display v-if="currentQuote != null"></stock-display>
+          <v-flex xs12 sm8 order-xs1>
+            <v-slide-y-transition>
+              <stock-display v-if="currentQuote != null"></stock-display>
+              <div v-if="lookupFailure">
+                <h1> FAIL </h1>
+              </div>
+            </v-slide-y-transition>
+            
           </v-flex>
-          <v-flex xs12 sm2>
+          <v-flex xs12 sm2 order-xs3>
             <v-card>
               <v-toolbar color="secondary">
                 <v-toolbar-title>Trending</v-toolbar-title>
@@ -55,6 +68,7 @@ li {
 a {
   color: #42b983;
 }
+
 </style>
 
 <script>
@@ -71,7 +85,8 @@ export default {
   },
   methods: {
     ...mapActions([
-      'lookupQuote'
+      'lookupQuote',
+      'purgeRecentLookups'
     ]),
     getTrendingSymbols () {
       this.$http.jsonp('https://api.stocktwits.com/api/2/trending/symbols/equities.json').then(response => {
@@ -86,7 +101,8 @@ export default {
   computed: {
     ...mapGetters([
       'recentLookups',
-      'currentQuote'
+      'currentQuote',
+      'lookupFailure'
     ])
   }
 }

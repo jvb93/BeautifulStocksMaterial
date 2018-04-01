@@ -7,6 +7,7 @@ export const store = new Vuex.Store({
   strict: true,
   state: {
     recentLookups: [],
+    stockTwits: [],
     currentLookup: '',
     currentQuote: null,
     isLookingUp: false,
@@ -22,6 +23,12 @@ export const store = new Vuex.Store({
     },
     currentQuote: (state) => {
       return state.currentQuote
+    },
+    stockTwits: (state) => {
+      return state.stockTwits
+    },
+    lookupFailure: (state) => {
+      return state.lookupFailure
     }
   },
   mutations: {
@@ -40,8 +47,14 @@ export const store = new Vuex.Store({
     toggleIsLookingUp: (state, payload) => {
       state.isLookingUp = !state.isLookingUp
     },
+    setLookupFailure: (state, payload) => {
+      state.lookupFailure = payload
+    },
     setCurrentQuote: (state, payload) => {
       state.currentQuote = payload
+    },
+    setStockTwits: (state, payload) => {
+      state.stockTwits = payload
     }
   },
   actions: {
@@ -53,21 +66,42 @@ export const store = new Vuex.Store({
       }
     },
     addLookup: (context, payload) => {
-      if (!context.getters.recentLookups.some(e => e.symbol.toUpperCase() === payload.toUpperCase())) {
+      var symbol = payload.quote.symbol.toUpperCase()
+      var companyName = payload.quote.companyName
+      if (!context.getters.recentLookups.some(e => e.symbol.toUpperCase() === symbol)) {
         // only add if the lookup doesn't exist
-        context.commit('pushLookup', {symbol: payload.toUpperCase(), dateAdded: Date.now()})
+        context.commit('pushLookup', {symbol: symbol, companyName: companyName, dateAdded: Date.now()})
         localStorage.setItem('recentLookups', JSON.stringify(context.getters.recentLookups))
       }
+    },
+    purgeRecentLookups: (context, payload) => {
+      localStorage.recentLookups = '[]'
+      context.dispatch('fetchLookupsFromLocalStorage')
     },
     lookupQuote: (context, payload) => {
       context.commit('setCurrentLookup', payload)
       context.commit('setCurrentQuote', null)
+      context.commit('setLookupFailure', false)
       context.commit('toggleIsLookingUp')
-      setTimeout(() => {
-        context.commit('setCurrentQuote', {symbol: context.getters.currentLookup, title: 'Apple, Inc'})
-        context.commit('toggleIsLookingUp')
-        context.dispatch('addLookup', payload)
-      }, 2000)
+
+      Vue.http.get('https://api.iextrading.com/1.0/stock/' + payload + '/batch?types=quote,news&range=1d&last=10')
+                .then(response => {
+                  context.commit('setCurrentQuote', response.data)
+                  context.commit('setCurrentLookup', '')
+                  context.commit('toggleIsLookingUp')
+                  context.dispatch('getStockTwits', payload)
+                  context.dispatch('addLookup', response.data)
+                }, response => {
+                  context.commit('setLookupFailure', true)
+                  context.commit('setCurrentLookup', '')
+                })
+    },
+    getStockTwits: (context, payload) => {
+      Vue.http.jsonp('https://api.stocktwits.com/api/2/streams/symbol/' + payload + '.json').then(response => {
+        context.commit('setStockTwits', response.body.messages)
+      }, response => {
+        context.commit('setStockTwits', [])
+      })
     }
 
   }

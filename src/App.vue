@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import {mapActions} from 'vuex'
+import {mapActions, mapGetters} from 'vuex'
 export default {
   data () {
     return {
@@ -61,21 +61,22 @@ export default {
       right: true,
       rightDrawer: false,
       title: 'Beautiful',
-      symbol:''
+      symbol: ''
     }
   },
   name: 'App',
   mounted () {
     this.fetchLookupsFromLocalStorage()
   },
-  methods:{ 
+  methods: {
     ...mapActions([
       'lookupQuote',
       'fetchLookupsFromLocalStorage'
-    ]),
-    lookupSymbol: () => {
-      this.addLookup(this.symbol)
-    }
+    ])
+  },
+  computed: {
+    ...mapGetters([
+    ])
   }
 }
 </script>

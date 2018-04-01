@@ -3,13 +3,17 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import { store } from './store/store'
+import Vuex from 'vuex'
+import {store} from './store/store'
 import Vuetify from 'vuetify'
 import VueResource from 'vue-resource'
 import 'vuetify/dist/vuetify.min.css'
+import VueMoment from 'vue-moment'
 
 Vue.use(Vuetify)
 Vue.use(VueResource)
+Vue.use(VueMoment)
+Vue.use(Vuex)
 
 Vue.config.productionTip = false
 
