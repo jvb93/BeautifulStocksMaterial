@@ -2,7 +2,7 @@
   <v-container grid-list-md fluid fill-height>
     <v-slide-y-transition mode="out-in">
         <v-layout row wrap>
-          <v-flex xs12 sm2 order-xs2>
+          <v-flex xs12 sm2 order-xs2 order-md1>
              <v-card>
               <v-toolbar color="secondary">
                 <v-toolbar-title>Recent</v-toolbar-title>
@@ -23,7 +23,7 @@
               </v-list>
             </v-card>
           </v-flex>
-          <v-flex xs12 sm8 order-xs1>
+          <v-flex xs12 sm8 order-xs1 order-md2>
             <v-slide-y-transition>
               <stock-display v-if="currentQuote != null"></stock-display>
               <div v-if="lookupFailure">
@@ -32,7 +32,7 @@
             </v-slide-y-transition>
             
           </v-flex>
-          <v-flex xs12 sm2 order-xs3>
+          <v-flex xs12 sm2 order-xs3 order-md3>
             <v-card>
               <v-toolbar color="secondary">
                 <v-toolbar-title>Trending</v-toolbar-title>

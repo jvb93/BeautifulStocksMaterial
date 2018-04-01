@@ -9,6 +9,7 @@ export const store = new Vuex.Store({
     recentLookups: [],
     stockTwits: [],
     currentLookup: '',
+    options: null,
     currentQuote: null,
     isLookingUp: false,
     lookupFailure: false
@@ -55,6 +56,9 @@ export const store = new Vuex.Store({
     },
     setStockTwits: (state, payload) => {
       state.stockTwits = payload
+    },
+    setOptions: (state, payload) => {
+      state.options = payload
     }
   },
   actions: {
@@ -90,6 +94,7 @@ export const store = new Vuex.Store({
                   context.commit('setCurrentLookup', '')
                   context.commit('toggleIsLookingUp')
                   context.dispatch('getStockTwits', payload)
+                  context.dispatch('getOptions', {symbol: payload, date: '06-04-2018'})
                   context.dispatch('addLookup', response.data)
                 }, response => {
                   context.commit('setLookupFailure', true)
@@ -102,7 +107,13 @@ export const store = new Vuex.Store({
       }, response => {
         context.commit('setStockTwits', [])
       })
+    },
+    getOptions: (context, payload) => {
+      Vue.http.get('/tradier/markets/options/chains?symbol=' + payload.symbol + '&expiration=' + payload.date).then(response => {
+        context.commit('setOptions', response.data.options)
+      }, response => {
+        context.commit('setOptions', [])
+      })
     }
-
   }
 })

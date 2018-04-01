@@ -81,17 +81,16 @@ export default {
     }
   },
   computed: {
-  
     quoteColor: () => {
-      //store is undefined
+      // store is undefined
       console.log(this.$store)
       return 'success'
-      if(this.currentQuote.quote.latestPrice >= this.currentQuote.quote.open) {
+      /* if (this.currentQuote.quote.latestPrice >= this.currentQuote.quote.open) {
         return 'success'
       }
-      return 'danger'
+      return 'danger' */
     },
-      ...mapGetters([
+    ...mapGetters([
       'currentQuote',
       'stockTwits'
     ])

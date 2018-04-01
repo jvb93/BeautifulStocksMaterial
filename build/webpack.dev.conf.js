@@ -38,7 +38,19 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       ? { warnings: false, errors: true }
       : false,
     publicPath: config.dev.assetsPublicPath,
-    proxy: config.dev.proxyTable,
+    proxy: {
+      '/tradier/**': {
+        target: 'https://sandbox.tradier.com/v1',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/tradier': ''
+        },
+        headers:{
+          "Authorization" : "Bearer " + config.dev.TRADIER_API_KEY,
+          "Accept" : "application/json"
+        }
+      }
+    },
     quiet: true, // necessary for FriendlyErrorsPlugin
     watchOptions: {
       poll: config.dev.poll,
