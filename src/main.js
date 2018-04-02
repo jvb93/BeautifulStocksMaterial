@@ -9,12 +9,21 @@ import Vuetify from 'vuetify'
 import VueResource from 'vue-resource'
 import 'vuetify/dist/vuetify.min.css'
 import VueMoment from 'vue-moment'
+import VueCurrencyFilter from 'vue-currency-filter'
 
 Vue.use(Vuetify)
 Vue.use(VueResource)
 Vue.use(VueMoment)
 Vue.use(Vuex)
-
+Vue.use(VueCurrencyFilter,
+  {
+    symbol: '$',
+    thousandsSeparator: ',',
+    fractionCount: 2,
+    fractionSeparator: '.',
+    symbolPosition: 'front',
+    symbolSpacing: false
+  })
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

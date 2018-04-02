@@ -30,6 +30,9 @@ export const store = new Vuex.Store({
     },
     lookupFailure: (state) => {
       return state.lookupFailure
+    },
+    currentOptions: (state) => {
+      return state.options
     }
   },
   mutations: {
@@ -109,7 +112,7 @@ export const store = new Vuex.Store({
       })
     },
     getOptions: (context, payload) => {
-      Vue.http.get('/tradier/markets/options/chains?symbol=' + payload.symbol + '&expiration=' + payload.date).then(response => {
+      Vue.http.get('https://us-central1-beautifulstocks.cloudfunctions.net/options?symbol=' + payload.symbol + '&expiration=' + payload.date, { headers: { 'Access-Control-Allow-Origin': '*' } }).then(response => {
         context.commit('setOptions', response.data.options)
       }, response => {
         context.commit('setOptions', [])

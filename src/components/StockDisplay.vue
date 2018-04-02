@@ -11,7 +11,7 @@
         <v-container fluid>
             <v-layout row>
                 <v-flex xs-12>
-                    <h1 class="headline text-lighten">{{currentQuote.quote.latestPrice}}</h1>
+                    <h1 class="headline text-lighten">{{currentQuote.quote.latestPrice | currency}}</h1>
                 </v-flex>
             </v-layout>
             <v-layout row>
@@ -31,7 +31,22 @@
                     <v-tabs-items v-model="currentTab">
                         <v-tab-item :id="`tab-1`">
                             <v-card flat>
-                                options
+                                 <v-data-table
+                                    v-if="currentOptions && currentOptions.option && currentOptions.option.length"
+                                    :headers="optionsHeaders"
+                                    :items="currentOptions.option"
+                                    :pagination.sync="pagination"
+                                    hide-actions
+                                    class="elevation-1">
+                                    <template slot="items" slot-scope="props">
+                                    <td>{{ props.item.option_type }}</td>
+                                    <td>{{ props.item.strike | currency}}</td>
+                                    <td>{{ props.item.expiration_date }}</td>
+                                    <td>{{ props.item.open_interest }}</td>
+                                    <td>{{ props.item.bid | currency}}</td>
+                                    <td>{{ props.item.ask | currency}}</td>
+                                    </template>
+                                </v-data-table>
                             </v-card>
                         </v-tab-item>
                         <v-tab-item :id="`tab-2`">
@@ -77,7 +92,19 @@ export default {
   data () {
     return {
       currentTab: 'tab-1',
-      text: 'test text'
+      text: 'test text',
+       pagination: {
+          sortBy: 'open_interest',
+          descending: true
+        },
+      optionsHeaders: [
+        { text: 'Type', value: 'option_type' },
+        { text: 'Strike', value: 'strike' },
+        { text: 'Expiration', value: 'expiration_date' },
+        { text: 'Open Interest', value: 'open_interest' },
+        { text: 'Bid', value: 'bid' },
+        { text: 'Ask', value: 'ask' },
+      ]
     }
   },
   computed: {
@@ -92,6 +119,7 @@ export default {
     },
     ...mapGetters([
       'currentQuote',
+      'currentOptions',
       'stockTwits'
     ])
   }
