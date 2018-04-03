@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-export const store = new Vuex.Store({
+export default new Vuex.Store({
   strict: true,
   state: {
     recentLookups: [],
@@ -112,6 +112,7 @@ export const store = new Vuex.Store({
       })
     },
     getOptions: (context, payload) => {
+      context.commit('setOptions', [])
       Vue.http.get('https://us-central1-beautifulstocks.cloudfunctions.net/options?symbol=' + payload.symbol + '&expiration=' + payload.date, { headers: { 'Access-Control-Allow-Origin': '*' } }).then(response => {
         context.commit('setOptions', response.data.options)
       }, response => {
