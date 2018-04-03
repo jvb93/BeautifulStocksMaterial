@@ -91,7 +91,7 @@ export default new Vuex.Store({
       context.commit('setLookupFailure', false)
       context.commit('toggleIsLookingUp')
 
-      Vue.http.get('https://api.iextrading.com/1.0/stock/' + payload + '/batch?types=quote,news&range=1d&last=10')
+      Vue.http.get('https://api.iextrading.com/1.0/stock/' + payload + '/batch?types=quote,news,company&range=1d&last=10')
                 .then(response => {
                   context.commit('setCurrentQuote', response.data)
                   context.commit('setCurrentLookup', '')

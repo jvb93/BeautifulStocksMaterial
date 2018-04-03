@@ -13,7 +13,7 @@
                   </v-btn>
                 </v-toolbar-items>
               </v-toolbar>
-              <v-list two-line v-if="recentLookups.length">
+              <v-list two-line v-if="recentLookups.length" style="height:50vh; overflow-y:scroll">
                   <v-list-tile v-ripple v-for="(item) in recentLookups" :key="item.symbol" @click="lookupQuote(item.symbol)">
                     <v-list-tile-content>
                       <v-list-tile-title v-html="item.symbol"></v-list-tile-title>
@@ -37,7 +37,7 @@
               <v-toolbar color="secondary">
                 <v-toolbar-title>Trending</v-toolbar-title>
               </v-toolbar>
-              <v-list two-line>
+              <v-list two-line style="height:50vh; overflow-y:scroll">
                   <v-list-tile v-ripple v-for="(item) in trendingSymbols" :key="item.symbol" @click="lookupQuote(item.symbol)">
                     <v-list-tile-content>
                       <v-list-tile-title v-html="item.symbol"></v-list-tile-title>

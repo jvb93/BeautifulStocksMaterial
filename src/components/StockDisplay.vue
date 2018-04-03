@@ -1,18 +1,73 @@
 <template>
 <div>
-    <v-toolbar :color="quoteColor">
+    <v-toolbar :class="contextualColor">
         <v-toolbar-title class="white--text">{{currentQuote.quote.companyName}}</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-title class="white--text">{{currentQuote.quote.symbol}}</v-toolbar-title>
 
         
     </v-toolbar>
-    <v-card>
+    <v-card> 
         <v-container fluid>
             <v-layout row>
                 <v-flex xs-12>
                     <h1 class="headline text-lighten">{{currentQuote.quote.latestPrice | currency}}</h1>
-                    <h3 class="text-lighten">{{(currentQuote.quote.changePercent*100).toFixed(2)}}%</h3>
+                    <h3 :class="contextualTextColor">{{(currentQuote.quote.changePercent*100).toFixed(2)}}%</h3>
+                </v-flex>
+            </v-layout>
+            <v-layout row>
+                <v-flex xs-3>
+                    <h3>CEO</h3>
+                    <p>{{currentQuote.company.CEO}}</p>
+                </v-flex>
+                <v-flex xs-3>
+                    <h3>Sector</h3>
+                    <p>{{currentQuote.company.sector}}</p>
+                </v-flex>
+                <v-flex xs-3>
+                    <h3>Industry</h3>
+                    <p>{{currentQuote.company.industry}}</p>
+                </v-flex>
+            </v-layout>
+            <v-layout row>
+                <v-flex xs-3>
+                    <h3>Market Cap</h3>
+                    <p>{{currentQuote.quote.marketCap}}</p>
+                </v-flex>
+                <v-flex xs-3>
+                    <h3>P/E</h3>
+                    <p>{{currentQuote.quote.peRatio}}</p>
+                </v-flex>
+                <v-flex xs-3>
+                    <h3>Volume</h3>
+                    <p>{{currentQuote.quote.latestVolume}}</p>
+                </v-flex>
+            </v-layout>
+            <v-layout row>
+                <v-flex xs-3>
+                    <h3>Day High</h3>
+                    <p>{{currentQuote.quote.high}}</p>
+                </v-flex>
+                <v-flex xs-3>
+                    <h3>Day Low</h3>
+                    <p>{{currentQuote.quote.low}}</p>
+                </v-flex>
+                <v-flex xs-3>
+                    <h3>Open</h3>
+                    <p>{{currentQuote.quote.open}}</p>
+                </v-flex>
+            </v-layout>
+            <v-layout row>
+                <v-flex xs-3>
+                    <h3>52 Week High</h3>
+                    <p>{{currentQuote.quote.week52High}}</p>
+                </v-flex>
+                <v-flex xs-3>
+                    <h3>52 Week Low</h3>
+                    <p>{{currentQuote.quote.week52Low}}</p>
+                </v-flex>
+                <v-flex xs-3>
+                   
                 </v-flex>
             </v-layout>
             <v-layout row>
@@ -109,13 +164,15 @@ export default {
     }
   },
   computed: {
-    quoteColor: () => {
-      console.log(this.$store); 
-      return 'success'
-      /*if (this.currentQuote.quote.latestPrice >= this.currentQuote.quote.open) {
-        return 'success'
+    contextualColor: function() {
+      if (this.$store.getters.currentQuote.quote.change >= 0) {
+        return 'green'
       }
-      return 'danger' */
+      return 'red'
+    },
+    contextualTextColor : function()
+    {
+        return this.contextualColor + '--text'
     },
     ...mapGetters({
       currentQuote: 'currentQuote',
