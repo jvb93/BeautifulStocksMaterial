@@ -12,6 +12,7 @@
             <v-layout row>
                 <v-flex xs-12>
                     <h1 class="headline text-lighten">{{currentQuote.quote.latestPrice | currency}}</h1>
+                    <h3 class="text-lighten">{{(currentQuote.quote.changePercent*100).toFixed(2)}}%</h3>
                 </v-flex>
             </v-layout>
             <v-layout row>
