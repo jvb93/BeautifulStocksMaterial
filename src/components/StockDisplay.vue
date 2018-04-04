@@ -164,30 +164,29 @@ export default {
     return {
       currentTab: 'tab-1',
       text: 'test text',
-       pagination: {
-          sortBy: 'open_interest',
-          descending: true
-        },
+      pagination: {
+        sortBy: 'open_interest',
+        descending: true
+      },
       optionsHeaders: [
         { text: 'Type', value: 'option_type' },
         { text: 'Strike', value: 'strike' },
         { text: 'Expiration', value: 'expiration_date' },
         { text: 'Open Interest', value: 'open_interest' },
         { text: 'Bid', value: 'bid' },
-        { text: 'Ask', value: 'ask' },
+        { text: 'Ask', value: 'ask' }
       ]
     }
   },
   computed: {
-    contextualColor: function() {
+    contextualColor: function () {
       if (this.$store.getters.currentQuote.quote.change >= 0) {
         return 'green'
       }
       return 'red'
     },
-    contextualTextColor : function()
-    {
-        return this.contextualColor + '--text'
+    contextualTextColor: function () {
+      return this.contextualColor + '--text'
     },
     ...mapGetters({
       currentQuote: 'currentQuote',
