@@ -14,78 +14,93 @@
                     <h1 class="headline text-lighten">{{currentQuote.quote.latestPrice | currency}}</h1>
                     <h3 :class="contextualTextColor">{{(currentQuote.quote.changePercent*100).toFixed(2)}}%</h3>
                 </v-flex>
-            </v-layout>
-            <v-layout row>
-                <v-flex xs-3>
-                    <h3>CEO</h3>
-                    <p>{{currentQuote.company.CEO}}</p>
-                </v-flex>
-                <v-flex xs-3>
-                    <h3>Sector</h3>
-                    <p>{{currentQuote.company.sector}}</p>
-                </v-flex>
-                <v-flex xs-3>
-                    <h3>Industry</h3>
-                    <p>{{currentQuote.company.industry}}</p>
-                </v-flex>
-            </v-layout>
-            <v-layout row>
-                <v-flex xs-3>
-                    <h3>Market Cap</h3>
-                    <p>{{currentQuote.quote.marketCap}}</p>
-                </v-flex>
-                <v-flex xs-3>
-                    <h3>P/E</h3>
-                    <p>{{currentQuote.quote.peRatio}}</p>
-                </v-flex>
-                <v-flex xs-3>
-                    <h3>Volume</h3>
-                    <p>{{currentQuote.quote.latestVolume}}</p>
-                </v-flex>
-            </v-layout>
-            <v-layout row>
-                <v-flex xs-3>
-                    <h3>Day High</h3>
-                    <p>{{currentQuote.quote.high}}</p>
-                </v-flex>
-                <v-flex xs-3>
-                    <h3>Day Low</h3>
-                    <p>{{currentQuote.quote.low}}</p>
-                </v-flex>
-                <v-flex xs-3>
-                    <h3>Open</h3>
-                    <p>{{currentQuote.quote.open}}</p>
-                </v-flex>
-            </v-layout>
-            <v-layout row>
-                <v-flex xs-3>
-                    <h3>52 Week High</h3>
-                    <p>{{currentQuote.quote.week52High}}</p>
-                </v-flex>
-                <v-flex xs-3>
-                    <h3>52 Week Low</h3>
-                    <p>{{currentQuote.quote.week52Low}}</p>
-                </v-flex>
-                <v-flex xs-3>
-                   
-                </v-flex>
-            </v-layout>
+            </v-layout>           
             <v-layout row>
                 <v-flex xs-12>
                     <v-tabs centered slot="extension" v-model="currentTab">
                         <v-tab :href="`#tab-1`">
-                            Options
+                            Basics
                         </v-tab>
                         <v-tab :href="`#tab-2`">
-                            News
+                            Options
                         </v-tab>
                         <v-tab :href="`#tab-3`">
+                            News
+                        </v-tab>
+                        <v-tab :href="`#tab-4`">
                             StockTwits
                         </v-tab>
                     </v-tabs>
  
                     <v-tabs-items v-model="currentTab">
                         <v-tab-item :id="`tab-1`">
+                            <v-card flat>
+                                <v-layout row>
+                                    <v-flex xs-12>
+                                        <table style="width:100%">
+                                            <tbody>
+                                                <tr>
+                                                    <td> 
+                                                        <h3>CEO</h3>
+                                                        <p>{{currentQuote.company.CEO}}</p>
+                                                    </td>
+                                                    <td> 
+                                                        <h3>Sector</h3>
+                                                        <p>{{currentQuote.company.sector}}</p>
+                                                    </td>
+                                                    <td>
+                                                        <h3>Industry</h3>
+                                                        <p>{{currentQuote.company.industry}}</p>    
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td> 
+                                                        <h3>Market Cap</h3>
+                                                        <p>{{currentQuote.quote.marketCap}}</p>
+                                                    </td>
+                                                    <td> 
+                                                        <h3>P/E</h3>
+                                                        <p>{{currentQuote.quote.peRatio}}</p>
+                                                    </td>
+                                                    <td>
+                                                        <h3>Volume</h3>
+                                                        <p>{{currentQuote.quote.latestVolume}}</p>   
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td> 
+                                                        <h3>Day High</h3>
+                                                        <p>{{currentQuote.quote.high}}</p>
+                                                    </td>
+                                                    <td> 
+                                                        <h3>Day Low</h3>
+                                                        <p>{{currentQuote.quote.low}}</p>
+                                                    </td>
+                                                    <td>
+                                                        <h3>Open</h3>
+                                                        <p>{{currentQuote.quote.open}}</p>   
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td> 
+                                                        <h3>52 Week High</h3>
+                                                        <p>{{currentQuote.quote.week52High}}</p>
+                                                    </td>
+                                                    <td> 
+                                                        <h3>52 Week Low</h3>
+                                                        <p>{{currentQuote.quote.week52Low}}</p>
+                                                    </td>
+                                                    <td>
+                                                        
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>                   
+                                    </v-flex>
+                                </v-layout>         
+                            </v-card>
+                        </v-tab-item>
+                        <v-tab-item :id="`tab-2`">
                             <v-card flat>
                                  <v-data-table
                                     v-if="currentOptions && currentOptions.option && currentOptions.option.length"
@@ -105,7 +120,7 @@
                                 </v-data-table>
                             </v-card>
                         </v-tab-item>
-                        <v-tab-item :id="`tab-2`">
+                        <v-tab-item :id="`tab-3`">
                             <v-card flat v-for="news in currentQuote.news" :key="news.url">
                                 <v-card-title primary-title>
                                 <div>
@@ -120,7 +135,7 @@
                                 </v-card-actions>
                             </v-card>
                         </v-tab-item>
-                        <v-tab-item :id="`tab-3`">
+                        <v-tab-item :id="`tab-4`">
                             <v-card flat>
                                 <v-card flat v-for="twit in stockTwits" :key="twit.id">
                                 <v-card-title primary-title>
