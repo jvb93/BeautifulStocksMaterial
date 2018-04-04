@@ -36,8 +36,6 @@
         flat
         solo-inverted
         prepend-icon="search"
-        label="Search"
-        class="hidden-sm-and-down"
         @keyup.enter="lookupQuote(symbol)"
         v-model="symbol"
       ></v-text-field>
